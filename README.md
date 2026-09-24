@@ -139,6 +139,7 @@ books/<book-name>/
 
 - **Clear sourcing.** Claims are labeled as the **author's**, outside **context**, **your** interpretation, or an **inference**.
 - **No invented quotes or pages.** Claude is told to cite only what it actually read and to tell you which parts it hasn't read. It can still slip, so check any quote or page number against your copy before it goes into an essay or slides.
+- **Your book can't give Claude orders.** Claude reads your book as material to study, not as instructions. If a file contains text aimed at AI tools (asking it to add a link, change its answer, or keep something from you), Claude tells you about it instead of following it.
 - **Short quotes only.** It paraphrases and points you to the page instead of copying long passages.
 - **Shaky claims flagged.** If a book leans on research Claude knows is contested or failed to replicate (like "ego depletion", the idea that willpower runs out like a battery), on ideas that have been superseded, or on an old software version, it tells you before you memorize them. For health, money, legal, or medical advice, it sticks to small, low-risk experiments and points you to a professional.
 - **Your language.** Claude replies in the language you write in. If the book is in another language, key terms show up in both, and short quotes stay in the original with Claude's translation.
@@ -165,6 +166,7 @@ Each step borrows a well-studied learning technique: guessing at questions befor
 └── marketplace.json     # makes this repo its own marketplace
 skills/<skill-name>/     # one folder per skill: SKILL.md plus references/
 evals/<skill-name>/      # test cases for each skill
+scripts/check_skills.py  # lints every skill before you open a pull request
 ```
 
 ### Try it locally
@@ -173,7 +175,16 @@ evals/<skill-name>/      # test cases for each skill
 claude --plugin-dir .
 ```
 
-Run `/reload-plugins` after you edit a skill, and `claude plugin validate .` before you open a pull request. Whatever lands on `main` is what new installs get, so send changes as a pull request from a branch or fork.
+Run `/reload-plugins` after you edit a skill. Before you open a pull request, run both validators:
+
+```
+./scripts/check_skills.py   # skills: frontmatter, naming, description, SKILL.md length, relative links
+claude plugin validate .    # plugin and marketplace manifests
+```
+
+`check_skills.py` runs with [uv](https://docs.astral.sh/uv/), which fetches its one dependency (PyYAML) on the fly. Without uv, install PyYAML and run `python3 scripts/check_skills.py`. Errors fail the check and warnings don't, unless you add `--strict`. To check one skill, pass its folder: `./scripts/check_skills.py skills/<skill-name>`.
+
+Whatever lands on `main` is what new installs get, so send changes as a pull request from a branch or fork.
 
 ### Run the evals
 
