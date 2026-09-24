@@ -12,7 +12,7 @@
 
 ## Identify the format
 
-Use only the input path the reader gave; never search other folders for a book. Before reading any of the text, work out what the input is:
+Use only the input path the reader gave; never search other folders for a book. A path given in words ("ch4.md in the resources folder") or a relative path is still a path: resolve it against the current directory and read it directly. Ask only if that location does not exist. Before reading any of the text, work out what the input is:
 
 1. **File or folder.** For a folder, list its contents. Find the book file itself (the largest text, PDF, or EPUB file) and note what sits beside it: page images, a `*_meta.json` or similar conversion metadata, or several chapter files.
 2. **Extension.** `.pdf`, `.epub`, `.mobi`/`.azw`/`.azw3`, or a text format (`.md`, `.txt`, `.html`).
@@ -48,11 +48,11 @@ Tools such as marker or pandoc turn a book into one large text file, often with 
 
 ## Other formats
 
-MOBI, AZW, and AZW3 need conversion first (for example, Calibre's `ebook-convert`). DRM-protected files cannot be read; ask the reader for exported notes and highlights or pasted excerpts. Do not help remove DRM.
+MOBI, AZW, and AZW3 need conversion first (for example, Calibre's `ebook-convert`). Write any converted or extracted copy to the study folder's `source/` subfolder, never beside the input. DRM-protected files cannot be read; ask the reader for exported notes and highlights or pasted excerpts. Do not help remove DRM.
 
 ## Large books and coverage
 
-Map first from the front matter, table of contents, introduction, and conclusion; then read only what the current purpose needs. For a book longer than about 50,000 words, write a short note of each chapter's claims with locations before reading the next: in the study folder when there is one, otherwise in a temporary directory, never in the reader's project. Keep a coverage line in `book.md` (or in those notes) and state it in every analysis:
+Map first from the front matter, table of contents, introduction, and conclusion; then read only what the current purpose needs. For a book longer than about 50,000 words, write a short note of each chapter's claims with locations before reading the next, in the study folder's `notes/` subfolder. Under the no-files rule, keep these notes in the conversation instead; never write them to a temporary directory or anywhere else. Keep a coverage line in `book.md` (or in those notes) and state it in every analysis:
 
 ```text
 Coverage. Read: pp. 1–48, 102–130. Skimmed: ch. 5–6. Not read: ch. 7–12.

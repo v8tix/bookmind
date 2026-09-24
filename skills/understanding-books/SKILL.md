@@ -15,7 +15,7 @@ Even when asked for a summary, reconstruct the author's argument rather than par
    - Input: "so I work from the book's actual text and cite its pages instead of relying on memory."
    - Output: "so your notes, questions, and review schedule are saved where you choose, and the next session can find them."
 
-   The reader may answer that there is no file (then work from pasted excerpts or recalled knowledge under operating rule 2), or that they want no files written (then skip the output and follow the no-files rule in [Study folder](#study-folder)). A reply that already gives both paths, or states either exception, needs no question.
+   The reader may answer that there is no file (then work from pasted excerpts or recalled knowledge under operating rule 2), or that they want no files written (then skip the output and follow the no-files rule in [Study folder](#study-folder)). A reply that already gives both paths, or states either exception, needs no question. A path given in words ("the file ch4.md in the resources folder") or a relative path counts: resolve it against the current directory.
 2. **Identify the input's format** before reading it, following "Identify the format" in [references/sources.md](references/sources.md).
 3. **Check the output for an existing study folder** (see [Study folder](#study-folder)). If reviews are due, offer them before any new reading.
 4. Establish only what else is missing and would change the outcome: purpose, depth, deadline, and the target task's format (exam question types, interview style). Ask at most two such questions in total; the paths in step 1 do not count toward them. Infer the rest and state your assumptions.
@@ -87,17 +87,19 @@ Spaced review only works if the next session can see this one. The study folder 
 <output>/<input-name>/
 ├── book.md                 # intake with both paths and the format, book map, coverage, page offset, concepts, synthesis
 ├── chapters/NN-<slug>.md   # one file per chapter; a dense chapter gets one section block per cycle
-├── review.md               # review prompts with dates, log, and answer keys
-└── overview.md, analysis.md, …  # quick overviews and analyst-mode deliverables
+├── review.md               # review prompts with dates, log, and answer keys; review.csv beside it when exported
+├── overview.md, analysis.md, …  # quick overviews and analyst-mode deliverables
+├── notes/                  # working notes while reading a long book
+└── source/                 # converted or extracted copies of the input, when needed
 ```
 
-- Create it only inside the output folder the reader gave. Never choose another location. Resolve a relative path against the current directory; if the output folder does not exist yet, create it without asking, since the reader chose it.
+- Every file you create goes inside this study folder: notes, reports, exports, converted copies, and scratch files. Never write to the input's folder, the current directory, a temporary directory, or anywhere else. Create it only inside the output folder the reader gave. Resolve a relative path against the current directory; if the output folder does not exist yet, create it without asking, since the reader chose it.
 - At the start of a session, list `<output>/*/book.md` and `<output>/*/review.md` in the reader's output folder, and use the folder for this book if it exists. Look nowhere else, not even the home or current directory: if it is not in the output folder, there is no record. Read the input path and format recorded in its `book.md` instead of asking again, unless the reader gives new ones.
 - Write review dates as absolute ISO dates. Take today's date from the session context; if it is absent, run `date +%F` or ask.
 - If the reader asks for a review and no record exists in the output folder, say so plainly, do not invent earlier results or assume which earlier sessions took place, and rebuild prompts from the source (or, with no source, from recalled knowledge labeled under rule 2).
 - Never show an answer key before the reader's attempt.
-- **No-files rule:** if the reader says they want no files written, or a file write is denied, do not ask again or retry. End each session with a portable review kit instead: the Prompts table and this session's Log rows from the Review file template, then the answer keys in a separate block marked for Claude, and a request to paste all of it at the next review.
-- On request, export the prompts as `review.csv` for Anki or a similar app (format in templates.md).
+- **No-files rule:** if the reader says they want no files written, or a file write is denied, do not ask again or retry, and write no files anywhere, not even temporary ones; keep working notes in the conversation. End each session with a portable review kit instead: the Prompts table and this session's Log rows from the Review file template, then the answer keys in a separate block marked for Claude, and a request to paste all of it at the next review.
+- On request, export the prompts as `review.csv` in the study folder, for Anki or a similar app (format in templates.md).
 
 ## Completion
 

@@ -249,3 +249,4 @@ Before declaring the work complete, verify:
 - In guided and hybrid mode, the reader attempted recall before correction, and missed items were re-asked.
 - The review schedule fits the deadline or horizon, uses absolute dates, and is saved where the next session can find it, or given to the reader as a portable review kit when files cannot be written.
 - The length of the output matches the requested depth.
+- No file was created outside the study folder inside the reader's output folder.
