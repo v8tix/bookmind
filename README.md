@@ -165,6 +165,7 @@ Each step borrows a well-studied learning technique: guessing at questions befor
 └── marketplace.json     # makes this repo its own marketplace
 skills/<skill-name>/     # one folder per skill: SKILL.md plus references/
 evals/<skill-name>/      # test cases for each skill
+scripts/check_skills.py  # lints every skill before you open a pull request
 ```
 
 ### Try it locally
@@ -173,7 +174,16 @@ evals/<skill-name>/      # test cases for each skill
 claude --plugin-dir .
 ```
 
-Run `/reload-plugins` after you edit a skill, and `claude plugin validate .` before you open a pull request. Whatever lands on `main` is what new installs get, so send changes as a pull request from a branch or fork.
+Run `/reload-plugins` after you edit a skill. Before you open a pull request, run both validators:
+
+```
+./scripts/check_skills.py   # skills: frontmatter, naming, description, SKILL.md length, relative links
+claude plugin validate .    # plugin and marketplace manifests
+```
+
+`check_skills.py` runs with [uv](https://docs.astral.sh/uv/), which fetches its one dependency (PyYAML) on the fly. Without uv, install PyYAML and run `python3 scripts/check_skills.py`. Errors fail the check and warnings don't, unless you add `--strict`. To check one skill, pass its folder: `./scripts/check_skills.py skills/<skill-name>`.
+
+Whatever lands on `main` is what new installs get, so send changes as a pull request from a branch or fork.
 
 ### Run the evals
 
