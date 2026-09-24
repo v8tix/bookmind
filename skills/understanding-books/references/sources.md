@@ -2,16 +2,24 @@
 
 ## Contents
 
-- Find the text
+- Identify the format
 - PDF
 - EPUB
+- Converted text (Markdown or plain text from a PDF or EPUB)
 - Other formats
 - Large books and coverage
 - Page citations
 
-## Find the text
+## Identify the format
 
-If `book.md` records a Source file path, use it first. Otherwise look for the file in the working directory and in each additional working directory, with Glob `**/*.{pdf,epub,mobi,azw,azw3}`, ignoring the `books/` study folder. Search `.md` or `.txt` files only when the reader says the text or notes are in that form. If there is nothing, ask for a path or for pasted excerpts of the chapters that matter. Without any text, follow operating rule 2 in SKILL.md.
+Use only the input path the reader gave; never search other folders for a book. Before reading any of the text, work out what the input is:
+
+1. **File or folder.** For a folder, list its contents. Find the book file itself (the largest text, PDF, or EPUB file) and note what sits beside it: page images, a `*_meta.json` or similar conversion metadata, or several chapter files.
+2. **Extension.** `.pdf`, `.epub`, `.mobi`/`.azw`/`.azw3`, or a text format (`.md`, `.txt`, `.html`).
+3. **Content, for text formats.** Read the first 100 or so lines and search the file for markers. Page anchors (`<span id="page-12-0">`, `[page 12]`, form-feed characters), image links, or a table of contents with page numbers mean the text was converted from a PDF: follow "Converted text". Plain prose with no markers is notes or an excerpt.
+4. **Record it** in `book.md`: the input path, the format (for example "PDF converted to Markdown, with page anchors"), how to read it, and how to cite locations (the page offset, or chapter and section).
+
+If the reader said there is no file, record that and follow operating rule 2 in SKILL.md.
 
 ## PDF
 
@@ -28,6 +36,15 @@ Reading an EPUB directly returns compressed bytes; extract it instead:
 2. Read `META-INF/container.xml` to find the `.opf` file. Take the chapter order from its `<spine>`, map each `idref` to its `href` in the `<manifest>`, and resolve hrefs relative to the `.opf` file's folder.
 3. Extract a chapter as text with `unzip -p book.epub <path/to/chapter.xhtml> | sed -e 's/<[^>]*>//g'`, or convert the book with `pandoc` if it is installed.
 4. EPUBs have no fixed pages: cite chapter and section instead.
+
+## Converted text (Markdown or plain text from a PDF or EPUB)
+
+Tools such as marker or pandoc turn a book into one large text file, often with page images and a metadata file beside it.
+
+1. Map the chapters first: list the headings (`grep -n '^#'`) and match them to the table of contents. Record each chapter's line range in `book.md`, then read one chapter's range at a time.
+2. Work out the page offset from the anchors. Find the anchor at a chapter's first line, compare it with that chapter's printed page in the table of contents, and record `printed page = anchor − offset` (anchors often count from 0 and include front matter). Check it at two or three more chapter starts. If it changes, record each range.
+3. Cite printed pages worked out this way. With no page anchors, cite chapter and section, as for an EPUB.
+4. Expect conversion damage: broken symbols, merged words, split tables, repeated or cut code blocks. Don't treat these as the author's errors, and say so if a passage you rely on looks damaged.
 
 ## Other formats
 

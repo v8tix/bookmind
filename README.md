@@ -27,10 +27,12 @@ claude plugin update bookmind@bookmind
 
 ## Your first session
 
-1. Put your book (a PDF or EPUB works best) in a folder, say `~/study`.
-2. Open a terminal in that folder and run `claude`, or open the folder in the Claude desktop app.
-3. Tell Claude what you're after: "Help me understand chapter 1 of `my-book.pdf`. I want to remember it for a few months."
-4. Claude asks a question or two, offers to keep a study folder next to your book, and gets you started on the chapter.
+1. Put your book (a PDF or EPUB works best) somewhere on your computer, say `~/books/my-book.pdf`, and pick a folder for your notes, say `~/study-notes`.
+2. Open a terminal and run `claude`, or open the Claude desktop app.
+3. Tell Claude what you're after, and give it both paths: "Help me understand chapter 1 of `~/books/my-book.pdf`. I want to remember it for a few months. Save my notes in `~/study-notes`."
+4. Claude asks a question or two if it needs to, then gets you started on the chapter.
+
+Claude needs both paths, and it won't guess either one. If you leave one out, its first reply asks for it and says why: the book so it works from the real text and cites its pages, and the notes folder so your questions and review dates are saved where you choose and your next session can find them.
 
 Claude Code usually asks before it runs a command or saves a file. Say yes when it wants to read your book or write your study notes.
 
@@ -111,29 +113,32 @@ Once you've finished the book, you pull it all together into one argument: the t
 
 ### Your study folder and reviews
 
-Each new conversation with Claude starts fresh, so your reviews need somewhere to live. When you want to remember a book, Claude offers to keep a small study folder in the folder you opened Claude Code in (or somewhere else you choose):
+Each new conversation with Claude starts fresh, so your reviews need somewhere to live. Claude keeps a small study folder for each book inside the notes folder you gave it, named after your book's file or folder:
 
 ```
-books/<book-name>/
+<your notes folder>/<book-name>/
 ├── book.md        # your map of the book, what you've read, key concepts, and final write-up
 ├── chapters/      # one file per chapter
-└── review.md      # review questions, due dates, and your results
+├── review.md      # review questions, due dates, and your results
+└── overview.md    # quick overviews and analyses, when you ask for them
 ```
 
 - **Real dates that fit your goal.** Every review gets a calendar date. With an exam or interview, you get 2–4 reviews before it (daily if it's less than a week away), the last one 1–3 days before. Otherwise, the first review is the day after the chapter and the gap grows each time you get it right: roughly 1, 3, 7, 21, and 45 days, then 3 and 6 months. With no end date, Claude plans for three months and tells you.
 - **You're the reminder.** Claude doesn't send notifications, so copy the review dates into your own calendar.
-- **Easy to pick up.** Next time, open Claude Code in the same folder and say "time for my review". Claude finds your study folder, asks the questions that are due (oldest first, and on the same day, the ones you missed last time), checks your answers, re-asks any misses, and sets the next dates. Started somewhere else? Just tell Claude where the folder is.
+- **Easy to pick up.** Next time, say "time for my review" and give Claude your notes folder (and the book, if you have it). Claude finds the study folder there, asks the questions that are due (oldest first, and on the same day, the ones you missed last time), checks your answers, re-asks any misses, and sets the next dates.
 - **No peeking.** Answers live in their own section and are never shown before you try.
 - **Honest about history.** Reviewing early runs as practice and leaves your schedule alone. If there's no record of an earlier session, Claude says so and builds fresh questions instead of making up past results.
 - **Flashcards if you like.** Ask for a `review.csv` you can import into Anki.
-- **Rather not keep a folder?** At the end of each session, Claude gives you a review kit to paste back next time.
+- **Rather not keep any files?** Say so instead of giving a notes folder. At the end of each session, Claude gives you a review kit to paste back next time.
 
 ### Bringing your book
 
-- **PDF**: put it in the folder you opened Claude Code in, or tell Claude where it is (for example, `~/Downloads/my-book.pdf`). Claude reads it chapter by chapter and cites printed page numbers, or "PDF p." when it can't tell the printed number. If it's a scan without usable text, Claude will tell you.
+- **Give the path.** Tell Claude where the book is, for example `~/Downloads/my-book.pdf`, or a folder that holds it. Claude never searches your computer for it. Before reading, it checks what kind of file it is.
+- **PDF**: Claude reads it chapter by chapter and cites printed page numbers, or "PDF p." when it can't tell the printed number. If it's a scan without usable text, Claude will tell you.
 - **EPUB**: works too; Claude extracts the chapters for you. EPUBs don't have fixed pages, so citations point to the chapter and section instead.
+- **Converted books (Markdown or text made from a PDF)**: work too. Claude spots page markers left by the conversion, works out how they map to the printed page numbers, and cites the printed pages.
 - **Kindle (MOBI/AZW/AZW3)**: convert it first (Calibre can do this) or paste excerpts. DRM-protected files can't be read, and Claude won't help remove DRM; paste excerpts or share your exported notes and highlights instead.
-- **No file?** For well-known books, Claude can work from what it already knows. It labels that as *recalled, not verified against the text*, points to chapters at most, gives no quotes or page numbers, and offers to check against an excerpt you paste. For anything less well known, it asks for the text rather than guess.
+- **No file?** Say so when Claude asks for the path. For well-known books, Claude can work from what it already knows. It labels that as *recalled, not verified against the text*, points to chapters at most, gives no quotes or page numbers, and offers to check against an excerpt you paste. For anything less well known, it asks for the text rather than guess.
 
 ### What it's built to do
 

@@ -6,4 +6,4 @@ timeout_seconds: 600
 allowed_tools: [Read, Glob, Grep, Skill]
 expected_outcome: Claude reads the chapter, explains that the success stories and the 83% statistic cannot establish the lesson, names survivorship or selection bias, and proposes a small, time-boxed, low-risk experiment the user could run.
 ---
-Help me evaluate the main lesson of this leadership book; its examples sound persuasive. The chapter is in the file built-to-endure-ch4.md in the resources folder I added to this session.
+Help me evaluate the main lesson of this leadership book; its examples sound persuasive. The chapter is in the file built-to-endure-ch4.md in the resources folder I added to this session. Save anything you write in the study-notes folder.

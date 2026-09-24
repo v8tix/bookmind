@@ -33,17 +33,17 @@ This is a flexible protocol, not a ritual. Short chapters may need one cycle; de
 
 ## Phase 0: Contract
 
-Determine the following, inferring what you can and asking at most two questions:
+Get the input and output paths first (SKILL.md, "Start of every session"). Then determine the following, inferring what you can and asking at most two questions:
 
 - purpose: overview, mastery, application, critique, exam, interview, discussion, or reference;
 - the target task's format (exam question types, interview style) when it would change the review prompts;
-- source access: full text, selected chapters, notes, metadata only, or Claude's general knowledge (unverified), and the file's path;
+- the input path and its format (see "Identify the format" in sources.md), and the source access it gives: full text, selected chapters, notes, metadata only, or Claude's general knowledge (unverified);
 - whether the reader is reading or has read the text (guided), will not read it but wants to retain it (hybrid), or wants only the analysis (analyst);
 - prior knowledge and relevant experience;
 - depth (Light, Standard, or Deep) and time available per week;
 - a deadline date (exam, interview, presentation) or a retention horizon (weeks, months, long-term);
 - the language of the book and of the notes;
-- the desired artifact, and whether to keep a study folder.
+- the desired artifact, and the output folder where the study folder goes.
 
 State any limitation caused by missing pages, edition differences, OCR quality, translation, or inaccessible sources.
 

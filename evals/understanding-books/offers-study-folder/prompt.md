@@ -6,4 +6,4 @@ max_turns: 25
 timeout_seconds: 600
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
-I want to really learn this chapter and still remember it in a few months. It's the file ch4-invalidation-contract.md in the resources folder I added to this session.
+I want to really learn this chapter and still remember it in a few months. It's the file ch4-invalidation-contract.md in the resources folder I added to this session. Keep my notes in the study-notes folder.

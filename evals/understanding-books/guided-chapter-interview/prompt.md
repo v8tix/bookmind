@@ -8,4 +8,4 @@ expected_outcome: "Skill fires; the first reply poses 3-5 leader-election-specif
 ---
 I'm working through Reliable by Agreement by Priya Castellanos-Winter and I want to really understand chapter 3, the one on leader election, not just skim it. I have a system design interview on October 23 and leader election is almost certainly going to come up, so I also need this to stick until then. I'm going to read the chapter myself tonight and can spare about 30 minutes a day after that.
 
-The chapter is the file ch3-leader-election.md in the resources folder I added to this session. Can you help me study it?
+The chapter is the file ch3-leader-election.md in the resources folder I added to this session. Can you help me study it? Save my study notes in the study-notes folder.

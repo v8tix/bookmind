@@ -11,8 +11,14 @@ Even when asked for a summary, reconstruct the author's argument rather than par
 
 ## Start of every session
 
-1. Look for an existing study folder (see [Study folder](#study-folder)). If reviews are due, offer them before any new reading.
-2. Establish only what is missing and would change the outcome: purpose, source access, depth, deadline, and the target task's format (exam question types, interview style). Ask at most two questions in total at the start, counting the study-folder offer; infer the rest and state your assumptions.
+1. **Get both paths first.** The reader must give an **input** (the book file or folder) and an **output** folder (where the study folder goes). Never pick, guess, or search for either one. If either is missing, your first reply asks for the missing ones, says in one line each why they are needed, and ends your turn without starting the task:
+   - Input: "so I work from the book's actual text and cite its pages instead of relying on memory."
+   - Output: "so your notes, questions, and review schedule are saved where you choose, and the next session can find them."
+
+   The reader may answer that there is no file (then work from pasted excerpts or recalled knowledge under operating rule 2), or that they want no files written (then skip the output and follow the no-files rule in [Study folder](#study-folder)). A reply that already gives both paths, or states either exception, needs no question.
+2. **Identify the input's format** before reading it, following "Identify the format" in [references/sources.md](references/sources.md).
+3. **Check the output for an existing study folder** (see [Study folder](#study-folder)). If reviews are due, offer them before any new reading.
+4. Establish only what else is missing and would change the outcome: purpose, depth, deadline, and the target task's format (exam question types, interview style). Ask at most two such questions in total; the paths in step 1 do not count toward them. Infer the rest and state your assumptions.
 
 ## Modes
 
@@ -44,7 +50,7 @@ Choose from the purpose and the time available; default to Light or Standard unl
 
 In analyst mode, depth sets what Claude writes. Light: the book map, each chapter's main claim and key relations, and a short synthesis. Standard: adds each central idea's explanation and the main claim's assumptions and limits. Deep: adds concept cards and the full synthesis template. Write no prequestions or review prompts unless retention is a goal.
 
-A quick request ("a 5-minute overview") gets a short answer: the thesis, 3–5 key ideas, one caveat, and the next useful step. It needs no study folder and no protocol file.
+A quick request ("a 5-minute overview") gets a short answer: the thesis, 3–5 key ideas, one caveat, and the next useful step. It needs no protocol file; save it as `overview.md` in the study folder.
 
 ## Workflow
 
@@ -58,7 +64,7 @@ For anything beyond a quick overview, read [references/protocol.md](references/p
 5. **Space**: schedule reviews from the deadline or horizon, with absolute dates, save them to the study folder, and interleave confusable concepts once they are understood.
 6. **Synthesize**: reconstruct the whole book as an argument, not a chain of chapter summaries.
 
-Use [references/templates.md](references/templates.md) for output and file formats, reading only the sections you need. Read [references/sources.md](references/sources.md) before reading a PDF, EPUB, or other book file. Read [references/evidence.md](references/evidence.md) only when explaining why the protocol works or citing research.
+Use [references/templates.md](references/templates.md) for output and file formats, reading only the sections you need. Read [references/sources.md](references/sources.md) before reading any input. Read [references/evidence.md](references/evidence.md) only when explaining why the protocol works or citing research.
 
 ## Operating rules
 
@@ -75,23 +81,23 @@ Use [references/templates.md](references/templates.md) for output and file forma
 
 ## Study folder
 
-Spaced review only works if the next session can see this one. When retention is a goal, offer once to keep a study folder, then keep it updated without asking again:
+Spaced review only works if the next session can see this one. The study folder lives inside the reader's output folder, named after the input (its folder name, or its file name without the extension), and keeps everything you produce for this book:
 
 ```
-books/<book-slug>/
-├── book.md                 # intake, book map, coverage, page offset, concepts, synthesis
+<output>/<input-name>/
+├── book.md                 # intake with both paths and the format, book map, coverage, page offset, concepts, synthesis
 ├── chapters/NN-<slug>.md   # one file per chapter; a dense chapter gets one section block per cycle
-└── review.md               # review prompts with dates, log, and answer keys
+├── review.md               # review prompts with dates, log, and answer keys
+└── overview.md, analysis.md, …  # quick overviews and analyst-mode deliverables
 ```
 
-- Put it under the current directory unless the reader names another place. If the current directory is an unrelated code project, ask where as part of the folder offer.
+- Create it only inside the output folder the reader gave. Never choose another location. Resolve a relative path against the current directory; if the output folder does not exist yet, create it without asking, since the reader chose it.
+- At the start of a session, list `<output>/*/book.md` and `<output>/*/review.md` in the reader's output folder, and use the folder for this book if it exists. Look nowhere else, not even the home or current directory: if it is not in the output folder, there is no record. Read the input path and format recorded in its `book.md` instead of asking again, unless the reader gives new ones.
 - Write review dates as absolute ISO dates. Take today's date from the session context; if it is absent, run `date +%F` or ask.
-- At the start of a session, Glob `**/books/*/review.md` in the working directory and in each additional working directory, passing that directory as Glob's path. If the reader keeps notes elsewhere, ask for the path or a paste.
-- If the reader asks for a review and no record exists, say so plainly, do not invent earlier results, and rebuild prompts from the source (or, with no source, from recalled knowledge labeled under rule 2).
+- If the reader asks for a review and no record exists in the output folder, say so plainly, do not invent earlier results or assume which earlier sessions took place, and rebuild prompts from the source (or, with no source, from recalled knowledge labeled under rule 2).
 - Never show an answer key before the reader's attempt.
-- If the reader declines the folder or a file write is denied, do not retry. End each session with a portable review kit instead: the Prompts table and this session's Log rows from the Review file template, then the answer keys in a separate block marked for Claude, and a request to paste all of it at the next review.
+- **No-files rule:** if the reader says they want no files written, or a file write is denied, do not ask again or retry. End each session with a portable review kit instead: the Prompts table and this session's Log rows from the Review file template, then the answer keys in a separate block marked for Claude, and a request to paste all of it at the next review.
 - On request, export the prompts as `review.csv` for Anki or a similar app (format in templates.md).
-- In analyst mode with no retention goal, create no files in the reader's project unless asked.
 
 ## Completion
 
