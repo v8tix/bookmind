@@ -6,4 +6,4 @@ timeout_seconds: 600
 allowed_tools: [Read, Glob, Grep, Skill]
 expected_outcome: Says plainly it has no record of the earlier session, asks for the notes or their path or offers to rebuild prompts, and invents no earlier results, gaps, or dates.
 ---
-Time for my day-7 review of chapter 3 of Designing Data-Intensive Applications.
+Time for my day-7 review of chapter 3 of Designing Data-Intensive Applications. My study notes should be in the study-notes folder, and I don't have the book file with me.

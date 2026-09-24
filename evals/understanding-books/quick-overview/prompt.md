@@ -6,4 +6,4 @@ timeout_seconds: 600
 allowed_tools: [Read, Glob, Grep, Skill]
 expected_outcome: Claude reads the book and replies with a short overview (at most 7000 characters) giving the thesis as a claim, 3-5 key ideas, at least one caveat, and a next step, without asking intake questions.
 ---
-Give me a 5-minute overview of this book. It's the file the-written-decision.md in the resources folder I added to this session.
+Give me a 5-minute overview of this book. It's the file the-written-decision.md in the resources folder I added to this session. Save anything you write in the study-notes folder.

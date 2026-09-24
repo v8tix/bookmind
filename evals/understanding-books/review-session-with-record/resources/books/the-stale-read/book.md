@@ -13,11 +13,13 @@ Depth: standard
 Time per week: about 3 hours
 Prior knowledge: runs Redis in production; knows primary/replica replication basics; no formal distributed-systems course
 Source: chapters (short excerpts pasted during sessions; the reader has the full print copy)
-Source file: pasted
+Input: pasted
+Format: notes (excerpts pasted during sessions)
 Reader will read it: reading or read
 Mode: guided
-PDF page offset: n/a (print edition)
-Study folder: books/the-stale-read/
+Page offset: n/a (print edition)
+Output: resources/books
+Study folder: resources/books/the-stale-read/
 
 ## Book map (provisional)
 

@@ -33,11 +33,13 @@ Depth: light | standard | deep
 Time per week:
 Prior knowledge:
 Source: full text | chapters | notes | metadata | recalled (unverified)
-Source file: <path, or "pasted">
+Input: <path given by the reader, "pasted", or "none">
+Format: <e.g. PDF | EPUB | PDF converted to Markdown with page anchors | notes>
 Reader will read it: reading or read | will not read
 Mode: guided | hybrid | analyst
-PDF page offset:
-Study folder: books/<book-slug>/
+Page offset (PDF page or anchor − printed page):
+Output: <folder given by the reader, or "no files">
+Study folder: <output>/<input-name>/
 ```
 
 ## Book map

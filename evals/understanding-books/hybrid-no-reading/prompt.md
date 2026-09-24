@@ -6,4 +6,4 @@ timeout_seconds: 600
 allowed_tools: [Read, Glob, Grep, Skill]
 expected_outcome: "The skill fires; the first reply poses 2-5 invalidation-specific questions for the user to guess at and stops, without first laying out the chapter's conclusions and without telling the user to go read the chapter."
 ---
-My team is redesigning our caching layer next month. Someone recommended chapter 4 of Hard Things in Soft Systems, but I honestly won't have time to read it. I don't just want a summary I'll forget, though: I want to actually remember the ideas over the next couple of months so I can use them in design reviews. The chapter is the file ch4-invalidation-contract.md in the resources folder I added to this session.
+My team is redesigning our caching layer next month. Someone recommended chapter 4 of Hard Things in Soft Systems, but I honestly won't have time to read it. I don't just want a summary I'll forget, though: I want to actually remember the ideas over the next couple of months so I can use them in design reviews. The chapter is the file ch4-invalidation-contract.md in the resources folder I added to this session. Save my study notes in the study-notes folder.
