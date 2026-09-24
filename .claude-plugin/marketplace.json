@@ -1,0 +1,16 @@
+{
+  "name": "bookmind",
+  "owner": {
+    "name": "V8TIX",
+    "email": "info@v8tix.com"
+  },
+  "description": "Marketplace for the BookMind plugin: skills for reading, analyzing, and creating books.",
+  "plugins": [
+    {
+      "name": "bookmind",
+      "source": "./",
+      "description": "Skills that help read, analyze, and create books with Claude.",
+      "version": "0.1.0"
+    }
+  ]
+}
