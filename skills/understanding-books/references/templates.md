@@ -191,7 +191,7 @@ Rules for this file:
 - Update Streak, Status, Last, and Next after each review, following Phase 5 of protocol.md, and append the results to the Log. Practice on prompts that are not yet due changes nothing here.
 - IDs: `c<chapter>-<nn>` for chapter prompts, `bk-<nn>` for whole-book prompts.
 
-For an Anki export, write `review.csv` with one row per prompt that is not retired. Anki imports a plain first row as a card, so start with its header lines:
+For an Anki export, write `review.csv` in the study folder, beside `review.md`, with one row per prompt that is not retired. Anki imports a plain first row as a card, so start with its header lines:
 
 ```text
 #separator:Comma

@@ -120,8 +120,12 @@ Each new conversation with Claude starts fresh, so your reviews need somewhere t
 ├── book.md        # your map of the book, what you've read, key concepts, and final write-up
 ├── chapters/      # one file per chapter
 ├── review.md      # review questions, due dates, and your results
-└── overview.md    # quick overviews and analyses, when you ask for them
+├── overview.md    # quick overviews and analyses, when you ask for them
+├── notes/         # Claude's working notes while it reads a long book
+└── source/        # a converted copy of your book, if it needed converting
 ```
+
+Everything Claude writes for a book stays in this folder, including Anki exports and converted copies. Nothing goes next to your book, into a temporary folder, or anywhere else.
 
 - **Real dates that fit your goal.** Every review gets a calendar date. With an exam or interview, you get 2–4 reviews before it (daily if it's less than a week away), the last one 1–3 days before. Otherwise, the first review is the day after the chapter and the gap grows each time you get it right: roughly 1, 3, 7, 21, and 45 days, then 3 and 6 months. With no end date, Claude plans for three months and tells you.
 - **You're the reminder.** Claude doesn't send notifications, so copy the review dates into your own calendar.
