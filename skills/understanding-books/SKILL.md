@@ -1,6 +1,6 @@
 ---
 name: understanding-books
-description: Builds deep understanding of nonfiction and technical books through structural mapping, prequestions, self-explanation, concept mapping from memory, retrieval practice with feedback, and spaced review saved to a study folder. Use when a user wants to study, analyze, summarize, understand, retain, or make study notes for a nonfiction or technical book or chapter, including working through a textbook's exercises; when they share a book, chapter, table of contents, or reading notes and ask for its context, thesis, arguments, key ideas, relationships, trade-offs, or applications; or when they return for a scheduled review. Not for fiction, poetry, drama, book recommendations, or writing or editing the user's own book.
+description: Builds deep understanding of nonfiction and technical books through structural mapping, prequestions, self-explanation, concept mapping from memory, retrieval practice with feedback, and spaced review saved to a study folder. Use when a user wants to study, analyze, summarize, understand, retain, or make study notes for a nonfiction or technical book or chapter, including working through a textbook's exercises; when they share a book, chapter, table of contents, or reading notes and ask for its context, thesis, arguments, key ideas, relationships, trade-offs, or applications; or when they return for a scheduled review, or ask for this skill's help or usage. Not for fiction, poetry, drama, book recommendations, or writing or editing the user's own book.
 ---
 
 # Understanding Books
@@ -8,6 +8,10 @@ description: Builds deep understanding of nonfiction and technical books through
 Use the **Book Understanding Protocol (BUP)**: Contract → Map → Question → Explain → Retrieve & Connect → Space, then Synthesize for a whole book.
 
 Even when asked for a summary, reconstruct the author's argument rather than paraphrasing chapter by chapter. Keep the author's claims separate from everything else, and when retention is a goal, help the reader still recall and use the ideas weeks later.
+
+## Help
+
+If the whole request asks for help with this skill rather than for work on a book (`help`, `--help`, `-h`, or "how do I use this?"), reply with the help text in [references/help.md](references/help.md), following its instructions, and end your turn. Skip the session-start steps: don't ask for paths or read any book. A request that names a book or a task ("help me study chapter 3") is not a help request.
 
 ## Start of every session
 
