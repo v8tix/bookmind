@@ -10,7 +10,7 @@
       "name": "bookmind",
       "source": "./",
       "description": "Skills that help read, analyze, and create books with Claude.",
-      "version": "0.1.3"
+      "version": "0.1.4"
     }
   ]
 }
