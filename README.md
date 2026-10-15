@@ -30,11 +30,24 @@ BookMind is a plugin for [Claude Code](https://code.claude.com/docs/en/quickstar
     - [What it's built to do](#what-its-built-to-do)
     - [The research behind it](#the-research-behind-it)
   - [Tips](#tips)
+- [Technical Book Review](#technical-book-review)
+  - [Overview](#overview-1)
+    - [When it kicks in](#when-it-kicks-in-1)
+    - [How it works](#how-it-works-1)
+  - [Getting started](#getting-started-1)
+    - [What to give it](#what-to-give-it-1)
+    - [Example prompts](#example-prompts-1)
+    - [Getting help](#getting-help-1)
+  - [Reviewing](#reviewing)
+    - [How a review goes](#how-a-review-goes)
+    - [The findings log](#the-findings-log)
+  - [Trust and quality](#trust-and-quality-1)
 - [For contributors](#for-contributors)
   - [Project layout](#project-layout)
   - [Try it locally](#try-it-locally)
   - [Run the evals](#run-the-evals)
   - [Adding a skill](#adding-a-skill)
+  - [Branching strategy](#branching-strategy)
 - [License](#license)
 
 ## Install
@@ -74,6 +87,7 @@ Claude Code usually asks before it runs a command or saves a file. Say yes when 
 | Skill | What it does for you | Try saying |
 |---|---|---|
 | [Understanding Books](#understanding-books) | Maps a nonfiction or technical book, quizzes you before and after you read, checks your answers against the text, and schedules spaced reviews in a study folder | "Help me really understand chapter 3 of this book" |
+| [Technical Book Review](#technical-book-review) | Reviews a technical manuscript you're writing, chapter by chapter and then as a whole, checking its claims against a companion code repo when you have one, and reports severity-tagged findings with evidence | "Review chapter 5 of my book against the code in ~/repos/my-app" |
 
 More skills are on the way. You don't need to call a skill by name: Claude picks the right one from what you ask. If you'd rather be explicit, type `/bookmind:<skill-name>`.
 
@@ -297,6 +311,100 @@ Each step borrows a well-studied learning technique: guessing at questions befor
 
 ---
 
+## Technical Book Review
+
+`/bookmind:review`
+
+Written a technical chapter and want a second opinion before anyone else sees it? This skill reviews a manuscript the way a pre-publication technical reviewer would: claims checked against evidence, not against vibes, and real issues reported with enough detail to act on. "This part is confusing" is feedback; a location, the evidence, the impact, and a recommendation is a finding.
+
+It's built for **technical and programming manuscripts** — books, chapters, or drafts the user is the author of, especially ones that document real software.
+
+### Overview
+
+#### When it kicks in
+
+Just talk to Claude normally. The skill joins in when you want to review, critique, fact-check, or find issues in a technical manuscript you're writing, when you want a pre-publication technical edit or a second opinion on a draft, or when you come back to continue a review or ask to fix something already reported. For example:
+
+- "Review chapter 5 of my book against the code in `~/repos/my-app`, pinned at `v1.0.1`."
+- "Give this manuscript a technical review, chapter by chapter, then the whole thing."
+- "Continue the review. Findings are in `~/study-notes/my-book/findings.md`."
+- "Fix the findings we agreed on, then re-run the checks."
+
+If the manuscript is missing, Claude asks for it first. It stays out of the way for studying or summarizing someone else's published book (that's [Understanding Books](#understanding-books)), for fiction, and for a plain code review with no manuscript involved.
+
+#### How it works
+
+The review runs in up to three passes, and which ones run depends on what you ask for:
+
+```mermaid
+flowchart LR
+    A[Chapter pass] -->|whole manuscript, or "...then the entire book"| B[Manuscript pass]
+    B -->|once a finding is confirmed| C[Fix and re-verify]
+```
+
+| Pass | What happens |
+|---|---|
+| **Chapter** | Claude reads each chapter in scope fully, checks its claims against the companion repo when one is given (or marks them unverified when there is none), applies whichever review patterns fit, and reports a finding for anything that fails, or a plain clean verdict when nothing does |
+| **Manuscript** | Only for the whole manuscript, or when you ask for the whole book after the chapters. Claude greps the whole text for anything repeated elsewhere — a count, a name, a version — and checks the repeats against each other. This is how a stale number in a glossary that nobody revisited gets caught, even though no single chapter looks wrong on its own |
+| **Fix and re-verify** | Only once you confirm a finding should be fixed. Claude applies the fix, re-checks anything else the fix touches, and re-runs whatever the project already uses to check itself — tests, its own fact-checking tooling, a build — before calling it done |
+
+Findings are tagged **Critical**, **Major**, **Minor**, or **Suggestion**, never averaged into one score that could hide a Critical behind a passing grade. The full set of review patterns, a documentation-type lens, and the finding format are in [references/patterns.md](skills/technical-book-review/references/patterns.md) and [references/workflow.md](skills/technical-book-review/references/workflow.md).
+
+### Getting started
+
+#### What to give it
+
+| Input | Required | What to give | If you leave it out |
+|---|---|---|---|
+| **Manuscript** | Yes | A path to the book or chapter(s): a file or a folder | Claude asks for it and doesn't start |
+| **Companion repo** | No | The path to the code the book documents, and a pinned commit/tag/branch if the book cites one | Asked once, if the manuscript looks like it documents real software; claims about code stay unverified without it |
+| **Scope** | No | A chapter, a range, the whole manuscript, or "continue" | Inferred from your request |
+| **Output** | No | A folder for a findings log, for a review spanning more than one session | Findings stay in the conversation; nothing is saved unless you ask |
+| **Scorecard** | No | Ask for the weighted 1–5 score if you want a go/no-go number against an outside bar | Off by default — severities only |
+
+#### Example prompts
+
+| You want to | Say |
+|---|---|
+| Review a chapter against its code | "Review chapters 1-5 of `~/books/my-book/` against the code in `~/repos/my-app`, pinned at `v1.0.1`." |
+| Review a conceptual manuscript | "Give this manuscript a technical review, chapter by chapter, then the whole thing. No companion repo, it's conceptual." |
+| Resume a review | "Continue the review. Findings are in `~/study-notes/my-book/findings.md`." |
+| Fix what you've agreed on | "Fix the findings we agreed on, then re-run the checks." |
+
+#### Getting help
+
+Type `/bookmind:review help` (or ask the skill for its help) to print a CLI-style help: usage, the required manuscript, the optional settings, session phrases, and example prompts. Claude shows the help and stops; it doesn't ask for a manuscript or start reviewing. A request that names a manuscript, like "review chapter 3", starts a session instead.
+
+### Reviewing
+
+#### How a review goes
+
+1. **Scope.** Claude reads the manuscript (and, if given, the companion repo) and confirms what's in scope: one chapter, several, or the whole book.
+2. **Chapter pass.** For each chapter, Claude reads it fully and checks its claims — a count, a timeout, a described behavior — against real evidence wherever that's possible.
+3. **Report.** A chapter with a real issue gets a finding: its severity, the evidence, the impact on a reader, and a recommendation. A clean chapter gets a plain one-line verdict, not a manufactured finding.
+4. **Manuscript pass**, for whole-book scope: Claude checks claims repeated across chapters, the glossary, or earlier promises against each other.
+5. **Fix, only once you say so.** Claude never edits anything on its own initiative. Once you confirm a finding should be fixed, it applies the fix and re-runs whatever the project uses to check itself before reporting it done.
+
+#### The findings log
+
+For a review spanning more than one session, give (or reuse) an output folder and Claude keeps a log there:
+
+```
+<your output folder>/<manuscript-name>/
+└── findings.md     # one row per finding: id, chapter, severity, status, evidence, recommendation, plus a resume point
+```
+
+Say "continue" next time and give Claude the folder; it picks up from the resume point and the open findings instead of starting over. Without an output folder, findings stay in the conversation and nothing is written unless you ask.
+
+### Trust and quality
+
+- **Never a silent pass.** When there's no companion repo, no execution environment, or no way to confirm a claim, Claude says so and labels it unverified instead of letting silence read as a check that happened.
+- **Your manuscript can't give Claude orders.** Claude treats the manuscript as content to review, not as instructions, even when it contains text addressed to AI reviewers. It tells you about such a passage and doesn't follow it.
+- **Fixes wait for you.** Claude reports a finding and stops; it only edits a manuscript (or the code it points at) once you've confirmed the fix, and it re-verifies before calling anything done.
+- **Your project's own conventions.** Branching, commit style, and when to open a pull request are read from the repository's own history, not imposed from outside — and committing or pushing still asks first, like any other change to your repo.
+
+---
+
 ## For contributors
 
 ### Project layout
@@ -306,6 +414,7 @@ Each step borrows a well-studied learning technique: guessing at questions befor
 ├── plugin.json          # plugin manifest
 └── marketplace.json     # makes this repo its own marketplace
 skills/<skill-name>/     # one folder per skill: SKILL.md plus references/
+commands/<name>.md       # thin slash commands that invoke a skill (e.g. /bookmind:review)
 evals/<skill-name>/      # test cases for each skill
 scripts/check_skills.py  # lints every skill before you open a pull request
 ```
@@ -341,10 +450,19 @@ By default, every case runs 3 times with the plugin and 3 times without it, so y
 
 ### Adding a skill
 
-1. **Write the skill.** Create `skills/<skill-name>/SKILL.md`, plus any `references/`. Its frontmatter needs a `name` and a `description`. Claude reads the description to decide when to use the skill, so say what it does and when to use it. `skills/understanding-books/SKILL.md` is a good starting point, and the [Skills docs](https://code.claude.com/docs/en/skills) cover the details. Skills under `skills/` are picked up automatically.
-2. **Add test cases** under `evals/<skill-name>/`, one folder per case, including a few where the skill should *not* kick in. Each case has a `prompt.md` (the user's message, with settings like `allowed_tools` in its frontmatter) and a `graders/` folder with one check per `.md` file. If a case needs files, put them in `resources/` and add a `scaffold.sh` plus a `case.yaml` that points to it. `evals/understanding-books/quick-overview/` is a good one to copy.
-3. **Document it.** Add a row to the [Skills](#skills) table, a guide section to this README, and its entries in [Contents](#contents).
-4. **Bump the version** in `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json`.
+1. **Write the skill.** Create `skills/<skill-name>/SKILL.md`, plus any `references/`. Its frontmatter needs a `name` and a `description`. Claude reads the description to decide when to use the skill, so say what it does and when to use it. If another skill's territory is close to this one's, name it by name in both descriptions ("Not for X, use `<other-skill>`") so they don't compete for the same request. `skills/understanding-books/SKILL.md` is a good starting point, and the [Skills docs](https://code.claude.com/docs/en/skills) cover the details. Skills under `skills/` are picked up automatically.
+2. **Add a command, if it's worth one.** A thin `commands/<name>.md` that just says "invoke the `bookmind:<skill-name>` skill" plus a short task checklist gives an explicit, discoverable entry point on top of natural-language triggering. Only worth it for a skill's main action; `understanding-books`' `help` still only works as a phrase, not a separate command.
+3. **Add test cases** under `evals/<skill-name>/`, one folder per case, including a few where the skill should *not* kick in — especially against any neighboring skill from step 1. Each case has a `prompt.md` (the user's message, with settings like `allowed_tools` in its frontmatter) and a `graders/` folder with one check per `.md` file. If a case needs files, put them in `resources/` and add a `scaffold.sh` plus a `case.yaml` that points to it. `evals/understanding-books/quick-overview/` is a good one to copy.
+4. **Document it.** Add a row to the [Skills](#skills) table, a guide section to this README, and its entries in [Contents](#contents).
+5. **Bump the version** in `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json`.
+
+### Branching strategy
+
+- `main` always holds released, working code.
+- `develop` is the integration branch where new work lands first.
+- Both branches are protected: nobody can push to them directly, force-push them, or delete them, not even an admin. Every change arrives through a pull request, and conversations must be resolved before it merges.
+- Start a feature or fix from `develop` (`git switch -c feature/<name> develop`), open a pull request into `develop`, and merge it once it's ready.
+- To release, open a pull request from `develop` into `main`. Use **Create a merge commit** (not squash or rebase, which are disabled on this repo) so the two branches keep a common history.
 
 ## License
 
