@@ -2,10 +2,11 @@
   "name": "bookmind",
   "displayName": "BookMind",
   "description": "Skills that help read, analyze, and create books with Claude.",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "author": {
     "name": "V8TIX",
     "email": "info@v8tix.com"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "commands": "./commands"
 }
