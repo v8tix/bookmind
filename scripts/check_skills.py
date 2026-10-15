@@ -45,7 +45,6 @@ BOOLEAN_WORDS = {"true", "false", "yes", "no", "on", "off", "1", "0"}
 EFFORT_LEVELS = {"low", "medium", "high", "xhigh", "max"}
 
 NAME_PATTERN = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
-XML_TAG = re.compile(r"</?[A-Za-z][\w:-]*[^<>]*>")
 TRIGGER_HINT = re.compile(r"\buse (?:it |this(?: skill)? )?(?:when|for|to|if|whenever)\b", re.I)
 MD_LINK = re.compile(r"\]\(\s*<?([^()\s<>]+)>?[^)]*\)")
 CODE_SPAN = re.compile(r"```.*?```|~~~.*?~~~|`[^`\n]+`", re.S)
@@ -106,9 +105,20 @@ def check_description(meta: dict, r: Report) -> None:
                           "Claude Code cuts the listing at 1536, so the tail is never seen")
     if not TRIGGER_HINT.search(listing):
         r.warnings.append("the description doesn't say when to use the skill (e.g. 'Use when ...')")
-    for key, value in (("name", meta.get("name")), ("description", desc), ("when_to_use", extra)):
-        if isinstance(value, str) and XML_TAG.search(value):
-            r.errors.append(f"`{key}` contains an XML tag, which the Claude API rejects")
+
+
+def check_angle_brackets(node, r: Report, path: str = "") -> None:
+    """No literal '<' or '>' anywhere in the frontmatter, not just in name/description:
+    the Claude API rejects the whole frontmatter block if one sneaks into any field."""
+    if isinstance(node, str):
+        if "<" in node or ">" in node:
+            r.errors.append(f"`{path}` contains a literal '<' or '>', which the Claude API rejects")
+    elif isinstance(node, dict):
+        for key, value in node.items():
+            check_angle_brackets(value, r, f"{path}.{key}" if path else str(key))
+    elif isinstance(node, list):
+        for i, value in enumerate(node):
+            check_angle_brackets(value, r, f"{path}[{i}]")
 
 
 def check_optional_fields(meta: dict, r: Report) -> None:
@@ -175,6 +185,8 @@ def check_skill(skill_dir: Path) -> Report:
         r.errors.append("SKILL.md must open with a '---' frontmatter block on line 1, closed by another '---'")
         return r
     fm, body = parts
+    if "\t" in fm:
+        r.errors.append("frontmatter contains a tab character, which can break YAML indentation")
 
     try:
         meta = yaml.safe_load(fm) or {}
@@ -188,6 +200,7 @@ def check_skill(skill_dir: Path) -> Report:
     check_name(meta, skill_dir.name, r)
     check_description(meta, r)
     check_optional_fields(meta, r)
+    check_angle_brackets(meta, r)
 
     if skill_dir.name.lower() == "synced":
         r.errors.append("the folder name 'synced' is reserved by Claude Code")
