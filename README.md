@@ -338,7 +338,7 @@ The review runs in up to three passes, and which ones run depends on what you as
 
 ```mermaid
 flowchart LR
-    A[Chapter pass] -->|whole manuscript, or "...then the entire book"| B[Manuscript pass]
+    A[Chapter pass] -->|whole manuscript, or then the entire book| B[Manuscript pass]
     B -->|once a finding is confirmed| C[Fix and re-verify]
 ```
 
